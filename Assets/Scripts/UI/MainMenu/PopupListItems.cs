@@ -10,12 +10,13 @@ public class PopupListItems : MonoBehaviour
 {
     [SerializeField] private Button _cancelButton;
     [SerializeField] private Button _completeButton;
-    [SerializeField] Transform listContainer;
-    [SerializeField] RoomItemListView roomItemListPrefab;
-    [SerializeField] PlayerItemListView playerItemListPrefab;
-    [SerializeField] TMP_Text titleText;
+    [SerializeField] private Transform listContainer;
+    [SerializeField] private RoomItemListView roomItemListPrefab;
+    [SerializeField] private PlayerItemListView playerItemListPrefab;
+    [SerializeField] private TMP_Text titleText;
     
-    readonly Subject<string> _itemSelected = new();
+    private readonly Subject<string> _itemSelected = new();
+    
     public IObservable<string> OnRoomSelected => _itemSelected;
     public IObservable<Unit> OnCancelButtonClick => _cancelButton.OnClickAsObservable();
     public IObservable<Unit> OnCompleteButtonClick => _completeButton.OnClickAsObservable();

@@ -7,16 +7,16 @@ using System;
 
 public class NicknamePopupView : MonoBehaviour
 {
-    [SerializeField] TMP_InputField inputField;
-    [SerializeField] Button submitButton;
-    [SerializeField] Button cancelButton;
+    [SerializeField] private TMP_InputField inputField;
+    [SerializeField] private Button submitButton;
+    [SerializeField] private Button cancelButton;
 
-    readonly Subject<string> _onSubmit = new Subject<string>();
+    private readonly Subject<string> _onSubmit = new Subject<string>();
+    private CompositeDisposable _disposable = new();
+    
     public IObservable<string> OnSubmitClick => _onSubmit.AsObservable();
     public IObservable<Unit> OnCancelClick => cancelButton.OnClickAsObservable();
     
-    private CompositeDisposable _disposable = new();
-
     private void BeforeShow()
     {
         submitButton.OnClickAsObservable()

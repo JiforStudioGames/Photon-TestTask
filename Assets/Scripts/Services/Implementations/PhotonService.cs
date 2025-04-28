@@ -9,7 +9,7 @@ using Zenject;
 
 public class PhotonService : MonoBehaviourPunCallbacks, IPhotonService, IOnEventCallback, IInitializable
 {
-    // Subjects
+
     private readonly Subject<Unit> _connected = new();
     private readonly Subject<DisconnectCause> _disconnected = new();
     private readonly Subject<Unit> _joinedRoom = new();
@@ -18,7 +18,7 @@ public class PhotonService : MonoBehaviourPunCallbacks, IPhotonService, IOnEvent
     private readonly Subject<string> _playerEntered = new();
     private readonly Subject<string> _playerLeft = new();
     private readonly Subject<short> _errors = new();
-    // Observables
+
     public IObservable<Unit> Connected => _connected.AsObservable();
     public IObservable<DisconnectCause> Disconnected => _disconnected.AsObservable();
     public IObservable<Unit> JoinedRoom => _joinedRoom.AsObservable();
@@ -34,8 +34,7 @@ public class PhotonService : MonoBehaviourPunCallbacks, IPhotonService, IOnEvent
         PhotonNetwork.AutomaticallySyncScene = true;
         Connect(Application.version);
     }
-
-    // Control
+    
     public void Connect(string gameVersion)
     {
         if (PhotonNetwork.IsConnected) return;

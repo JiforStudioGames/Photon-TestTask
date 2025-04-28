@@ -4,8 +4,8 @@ using Zenject;
 
 public class PlayerPresenter : IInitializable, IDisposable
 {
-    readonly IPlayerService _playerService;
-    readonly CompositeDisposable _disposables = new CompositeDisposable();
+    private readonly IPlayerService _playerService;
+    private readonly CompositeDisposable _disposables = new CompositeDisposable();
 
     [Inject]
     public PlayerPresenter(IPlayerService playerService)
