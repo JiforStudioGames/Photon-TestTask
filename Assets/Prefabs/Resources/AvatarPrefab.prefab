@@ -1638,7 +1638,7 @@ MonoBehaviour:
   healthSlider: {fileID: 6756891304874841343}
   playerInput: {fileID: 4416926081852918493}
   playerController: {fileID: 4416926081852918490}
-  multiplyDamage: 10
+  multiplyDamage: 3
   minFallVelocity: 10
   maxFallVelocity: 30
   maxDamage: 50

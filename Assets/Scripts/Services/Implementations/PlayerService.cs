@@ -10,6 +10,7 @@ using Zenject;
 
 public class PlayerService : IPlayerService, IInitializable, IDisposable
 {
+    [Inject] private DiContainer _diContainer;
     private const int MaxHealth = 100;
     private const byte LevelLoadedEventCode = 255;
     

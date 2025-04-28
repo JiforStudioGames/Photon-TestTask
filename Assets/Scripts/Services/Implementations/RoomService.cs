@@ -5,7 +5,7 @@ using Photon.Pun;
 using System.Collections.Generic;
 using ExitGames.Client.Photon;
 
-public class RoomService : IRoomService, IInRoomCallbacks
+public class RoomService : IRoomService
 {
     private const byte LevelLoadedEventCode = 200;
     
@@ -43,6 +43,16 @@ public class RoomService : IRoomService, IInRoomCallbacks
         {
             RefreshPlayers();
             _joined.OnNext(Unit.Default);
+        });
+        
+        _photon.PlayerPropertiesUpdate.Subscribe(data =>
+        {
+            _playerPropertiesUpdate.OnNext(data);
+        });
+        
+        _photon.MasterClientSwitched.Subscribe(_ =>
+        {
+            _masterClientSwitched.OnNext(Unit.Default);
         });
         
         _photon.PlayerEntered.Subscribe(_ =>
@@ -113,17 +123,5 @@ public class RoomService : IRoomService, IInRoomCallbacks
     public void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
     {
         _roomPropertiesUpdate.OnNext(Unit.Default);
-    }
-
-    public void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
-    {
-        _playerPropertiesUpdate.OnNext((targetPlayer, changedProps));
-    }
-
-    public void OnMasterClientSwitched(Player newMasterClient)
-    {
-        _masterClientSwitched.OnNext(Unit.Default);
-        _photon.LeaveRoom();
-        PhotonNetwork.LoadLevel(0);
     }
 }

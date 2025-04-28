@@ -18,6 +18,8 @@ public class PhotonService : MonoBehaviourPunCallbacks, IPhotonService, IOnEvent
     private readonly Subject<string> _playerEntered = new();
     private readonly Subject<string> _playerLeft = new();
     private readonly Subject<short> _errors = new();
+    private readonly Subject<(Player player, Hashtable props)> _playerPropertiesUpdate = new();
+    private readonly Subject<Unit> _masterClientSwitched = new();
 
     public IObservable<Unit> Connected => _connected.AsObservable();
     public IObservable<DisconnectCause> Disconnected => _disconnected.AsObservable();
@@ -27,6 +29,9 @@ public class PhotonService : MonoBehaviourPunCallbacks, IPhotonService, IOnEvent
     public IObservable<Unit> LeftRoom => _leftRoom.AsObservable();
     public IObservable<string> PlayerEntered => _playerEntered.AsObservable();
     public IObservable<string> PlayerLeft => _playerLeft.AsObservable();
+    public IObservable<Unit> MasterClientSwitched => _masterClientSwitched;
+    public IObservable<(Player player, Hashtable props)> PlayerPropertiesUpdate => _playerPropertiesUpdate.AsObservable();
+
 
     public void Initialize()
     {
@@ -139,6 +144,18 @@ public class PhotonService : MonoBehaviourPunCallbacks, IPhotonService, IOnEvent
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
         _errors.OnNext(returnCode);
+    }
+    
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    {
+        _playerPropertiesUpdate.OnNext((targetPlayer, changedProps));
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        _masterClientSwitched.OnNext(Unit.Default);
+        LeaveRoom();
+        PhotonNetwork.LoadLevel(0);
     }
 
     public string GetActiveRoom() => PhotonNetwork.CurrentRoom.Name;

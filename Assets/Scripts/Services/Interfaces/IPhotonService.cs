@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using UniRx;
@@ -16,6 +17,8 @@ public interface IPhotonService
     IObservable<Unit> LeftRoom { get; }
     IObservable<string> PlayerEntered { get; }
     IObservable<string> PlayerLeft { get; }
+    IObservable<(Player player, Hashtable props)> PlayerPropertiesUpdate { get; }
+    IObservable<Unit> MasterClientSwitched { get; }
 
     // Error events
     IObservable<short> OnError { get; }
