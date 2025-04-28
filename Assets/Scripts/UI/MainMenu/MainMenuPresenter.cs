@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class MainMenuPresenter : IInitializable, IDisposable
 {
     private const string GameSceneName = "Playground";
+    private const string DefaultNickName = "Nagibator228";
     
     private readonly MainMenuView _view;
     private readonly IRoomService _roomService;
@@ -27,6 +28,7 @@ public class MainMenuPresenter : IInitializable, IDisposable
     public void Initialize()
     {
         _disposable?.Clear();
+        _photon.SetNickname(DefaultNickName);
         
         _view.OnLoadRooms
             .Subscribe(_ =>
